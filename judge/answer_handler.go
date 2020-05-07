@@ -90,8 +90,10 @@ func (a *AnswerHandler) CheckAnswer(topicAnswerMessage message.TopicAnswerMessag
 	// 万一缓存删除失败了，由过期时间进行淘汰
 	runIdKeys := redis.GetRunIdStatusKey(topicAnswerMessage.AnswerId, answer.StudentId)
 	experimentKeys := redis.GetGroupSidKey(answer.GroupId, answer.StudentId)
-	_ = redis.Client.Del(runIdKeys)
-	_ = redis.Client.HDel(experimentKeys, fmt.Sprintf("%d", topicAnswerMessage.ProblemId))
+	err = redis.Client.Del(runIdKeys)
+	log.Infof("redis del is succeed or fail, key: %s, err:%v", runIdKeys, err)
+	err = redis.Client.HDel(experimentKeys, fmt.Sprintf("%d", topicAnswerMessage.ProblemId))
+	log.Infof("redis del is succeed or fail, key: %s, err:%v", experimentKeys, err)
 
 	a.returnSuccess()
 	return

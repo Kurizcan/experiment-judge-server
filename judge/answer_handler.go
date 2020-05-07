@@ -137,7 +137,6 @@ func check(command *mysql.AnswerCommand, output model.OutPutData) (int, string) 
 					log.Infof("this line %s is true with header %s", item, output.Headers[j])
 				} else {
 					rightBool = false
-					log.Infof("this line %s is false with header %s", item, output.Headers[j])
 				}
 			} else {
 				// rows compare
@@ -146,7 +145,6 @@ func check(command *mysql.AnswerCommand, output model.OutPutData) (int, string) 
 					log.Infof("this line %s is true with row %s", item, output.Rows[i-1][j])
 				} else {
 					rightBool = false
-					log.Infof("this line %s is false with header %s", item, output.Rows[i-1][j])
 				}
 			}
 		}
@@ -157,8 +155,8 @@ func check(command *mysql.AnswerCommand, output model.OutPutData) (int, string) 
 		return AllRight, ""
 	} else if !wrongBool {
 		// 全错
-		return WrongAnswer, ""
+		return WrongAnswer, "your output were all wrong"
 	} else {
-		return PartlyRight, ""
+		return PartlyRight, "your output were Partly wrong"
 	}
 }

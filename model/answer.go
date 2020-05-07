@@ -19,7 +19,7 @@ func (a *AnswerModel) TableName() string {
 }
 
 func (a *AnswerModel) Detail(id int) error {
-	return DB.ApiDatabase.Where("Id = ?", id).Error
+	return DB.ApiDatabase.Where("Id = ?", id).Find(&a).Error
 }
 
 func (a *AnswerModel) Update(id int, data map[string]interface{}) error {

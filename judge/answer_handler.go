@@ -91,10 +91,13 @@ func (a *AnswerHandler) CheckAnswer(topicAnswerMessage message.TopicAnswerMessag
 	runIdKeys := redis.GetRunIdStatusKey(topicAnswerMessage.AnswerId, answer.StudentId)
 	experimentKeys := redis.GetGroupSidKey(answer.GroupId, answer.StudentId)
 	err = redis.Client.Del(runIdKeys)
-	log.Infof("redis del is succeed or fail, key: %s, err:%v", runIdKeys, err)
+	if err != nil {
+		log.Errorf(err, "redis del is fail, runIdKeys key: %s", runIdKeys)
+	}
 	err = redis.Client.HDel(experimentKeys, fmt.Sprintf("%d", topicAnswerMessage.ProblemId))
-	log.Infof("redis del is succeed or fail, key: %s, err:%v", experimentKeys, err)
-
+	if err != nil {
+		log.Errorf(err, "redis del is fail, experimentKeys key: %s", experimentKeys)
+	}
 	a.returnSuccess()
 	return
 }

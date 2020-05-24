@@ -3,9 +3,12 @@ package message
 import (
 	"encoding/json"
 	"experiment-judge-server/judge"
+	"experiment-judge-server/util"
 	"experiment-judge-server/util/message"
+	"fmt"
 	"github.com/Shopify/sarama"
 	"github.com/lexkong/log"
+	"github.com/spf13/viper"
 )
 
 type MQ interface {
@@ -17,6 +20,20 @@ const (
 	TopicProblem = "problem_experiment" // 2 个副本， 3 个分区
 	TopicAnswer  = "answer_experiment"  // 2 个副本， 3 个分区
 )
+
+func getAnswerGroupID() string {
+	shortId, _ := util.GenShortId()
+	groupId := fmt.Sprintf("%s_%s", viper.GetString("mq.consumer.answer"), shortId)
+	log.Infof("answer group id is %s", groupId)
+	return groupId
+}
+
+func getProblemIdGroupID() string {
+	shortId, _ := util.GenShortId()
+	groupId := fmt.Sprintf("%s_%s", viper.GetString("mq.consumer.problem"), shortId)
+	log.Infof("problem group id is %s", groupId)
+	return groupId
+}
 
 type answerConsumerGroupHandler struct{}
 

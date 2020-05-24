@@ -42,12 +42,12 @@ func GenShortId() (string, error) {
 func getDataScoreFileName() string {
 	name, _ := GenShortId()
 	root, _ := os.Getwd()
-	return fmt.Sprintf("%s\\%s\\%s.sql", root, viper.GetString("data_scour"), name)
+	return fmt.Sprintf("%s/%s/%s.sql", root, viper.GetString("data_scour"), name)
 }
 
 func StoreFile(data []byte) (string, error) {
 	fileName := getDataScoreFileName()
-	file, err := os.OpenFile(fileName, os.O_CREATE|os.O_APPEND, 0666)
+	file, err := os.OpenFile(fileName, os.O_CREATE|os.O_APPEND|os.O_WRONLY, os.ModePerm)
 	if err != nil {
 		log.Fatal("open file fail", err)
 		return "", err

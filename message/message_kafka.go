@@ -32,12 +32,14 @@ func GetKafkaClient() *KafkaClient {
 			panic(err)
 		}
 		// Start a new consumer group
-		answerGroup, err := sarama.NewConsumerGroupFromClient(viper.GetString("mq.consumer.answer"), client)
+		//answerGroup, err := sarama.NewConsumerGroupFromClient(viper.GetString("mq.consumer.answer"), client)
+		answerGroup, err := sarama.NewConsumerGroupFromClient(getAnswerGroupID(), client)
 		if err != nil {
 			panic(err)
 		}
 		log.Info("answerGroup is create")
-		problemGroup, err := sarama.NewConsumerGroupFromClient(viper.GetString("mq.consumer.problem"), client)
+		//problemGroup, err := sarama.NewConsumerGroupFromClient(viper.GetString("mq.consumer.problem"), client)
+		problemGroup, err := sarama.NewConsumerGroupFromClient(getProblemIdGroupID(), client)
 		if err != nil {
 			panic(err)
 		}

@@ -123,7 +123,7 @@ func check(command *mysql.AnswerCommand, output model.OutPutData) (int, string) 
 	// 先检查运行信息是否有误
 	enomsgSlice := strings.Split(enomsg, "\n")
 	log.Infof("len of es: %d", len(enomsgSlice)) // len > 2 就有错误，默认会输出一条 warning 和 一空行
-	if len(enomsgSlice) > 2 {
+	if len(enomsgSlice) >= 2 {
 		return HaveError, strings.Join(enomsgSlice[1:len(enomsgSlice)-1], "\n")
 	}
 

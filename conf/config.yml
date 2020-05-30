@@ -30,8 +30,8 @@ mq:
       - 127.0.0.1:9092
       - 127.0.0.1:9093
   consumer:
-    answer: answer_consumer_1
-    problem: problem_consumer_1
+    answer: answer_consumer
+    problem: problem_consumer
 redis:
   addr: 127.0.0.1:6739
   password: experiment

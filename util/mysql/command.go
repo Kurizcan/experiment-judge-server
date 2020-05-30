@@ -10,10 +10,10 @@ import (
 )
 
 type Command interface {
-	Run() (uint32, error)
+	Run() (int, error)
 }
 
-func RunCommand(command Command) (uint32, error) {
+func RunCommand(command Command) (int, error) {
 	return command.Run()
 }
 
@@ -35,13 +35,14 @@ type ProblemCommand struct {
 	cmd *exec.Cmd
 }
 
-func (p *ProblemCommand) Run() (uint32, error) {
+func (p *ProblemCommand) Run() (int, error) {
 	err := p.cmd.Run()
 	if err != nil {
 		log.Errorf(err, "ProblemCommand run fail, the command %s %s", p.cmd.Path, p.cmd.Args)
 		return 0, err
 	}
-	res := p.cmd.ProcessState.Sys().(syscall.WaitStatus).ExitCode
+	//res := p.cmd.ProcessState.Sys().(syscall.WaitStatus).ExitCode
+	res := p.cmd.ProcessState.Sys().(syscall.WaitStatus).ExitStatus()
 	log.Infof("the command %s %s res:%d", p.cmd.Path, p.cmd.Args, res)
 	return res, nil
 }
@@ -67,13 +68,14 @@ func (a *AnswerCommand) SetCommand(dataBase, sql string) {
 	a.cmd.Stderr = &a.Enomsg
 }
 
-func (a *AnswerCommand) Run() (uint32, error) {
+func (a *AnswerCommand) Run() (int, error) {
 	err := a.cmd.Run()
 	if err != nil {
 		log.Errorf(err, "AnswerCommand run fail, the AnswerCommand %s %s", a.cmd.Path, a.cmd.Args)
 		return 0, err
 	}
-	res := a.cmd.ProcessState.Sys().(syscall.WaitStatus).ExitCode
+	//res := a.cmd.ProcessState.Sys().(syscall.WaitStatus).ExitCode
+	res := a.cmd.ProcessState.Sys().(syscall.WaitStatus).ExitStatus()
 	log.Infof("the command %s %s res:%d", a.cmd.Path, a.cmd.Args, res)
 	return res, nil
 }
